@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARKA - Online Clothing Store</title>
+    <!-- Bootstrap CSS (Optional, but recommended) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            /* Lighter background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.75;
+            /* Improved line height */
+            -webkit-font-smoothing: antialiased;
+            /* Improve font rendering */
+            text-rendering: optimizeLegibility;
+            /* Improve text rendering */
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .rounded-pill {
+            border-radius: 50px !important;
+        }
+
+        /* Container and Spacing */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+            /* Increased side padding */
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: #fff;
+            /* White navbar */
+            padding: 1.25rem 0;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.075);
+            /* Subtle shadow */
+            position: sticky;
+            /* Stick to the top */
+            top: 0;
+            z-index: 100;
+            /* Ensure it's above other elements */
+            transition: box-shadow 0.3s ease;
+            /* Smooth shadow transition */
+        }
+
+        .navbar:hover {
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+            /* Enhanced shadow on hover */
+        }
+
+        .navbar-brand {
+            font-size: 2.25rem;
+            /* Increased brand size */
+            font-weight: 700;
+            color: #2c3e50;
+            /* Darker brand color */
+            text-decoration: none;
+            letter-spacing: -0.025em;
+            /* Tighten letter spacing */
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 1.15rem;
+            color: #555;
+            /* Muted link color */
+            padding: 0.65rem 1.35rem;
+            /* Adjusted padding */
+            transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 0.35rem;
+            /* Rounded links */
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: #3498db;
+            /* Brand color on hover */
+            background-color: rgba(52, 152, 219, 0.075);
+            /* Light background on hover */
+            transform: translateY(-2px);
+            /* Slight lift on hover */
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 700px;
+            /* Increased height */
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+            /* Added gradient overlay */
+        }
+
+        .hero-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.9s cubic-bezier(0.165, 0.84, 0.44, 1);
+            /* Smoother transition */
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem;
+            box-sizing: border-box;
+        }
+
+        .hero-slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.45);
+            /* Darker overlay */
+            z-index: 1;
+            opacity: 0.8;
+            /* Slight transparency */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            /* Stronger text shadow */
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            /* Increased hero title size */
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 0.65rem;
+            letter-spacing: 0.05em;
+            /* Adjusted letter spacing */
+        }
+
+        .hero p {
+            font-size: 1.55rem;
+            /* Slightly increased paragraph size */
+            margin-bottom: 2.25rem;
+            font-weight: 300;
+            /* Lighter font weight */
+            line-height: 1.6;
+            /* Improved line height */
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            padding: 0.85rem 2rem;
+            /* Further adjusted padding */
+            border-radius: 0.4rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow
+                0.15s ease-in-out, transform 0.2s ease;
+            text-decoration: none;
+            font-size: 1.2rem;
+            /* Increased button text size */
+            letter-spacing: 0.025em;
+            /* Adjusted letter spacing */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            /* Added shadow */
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            /* Increased lift on hover */
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+            /* Enhanced shadow */
+        }
+
+        .btn-light {
+            background-color: rgba(255, 255, 255, 0.95);
+            /* Less transparent light button */
+            color: #34495e;
+            /* Darker text color */
+            border: 1px solid transparent;
+            font-weight: 600;
+        }
+
+        .btn-light:hover {
+            background-color: #fff;
+            color: #2980b9;
+            /* Brand color on hover */
+        }
+
+        .btn-dark {
+            background-color: #34495e;
+            color: #fff;
+            border: 1px solid transparent;
+            font-weight: 600;
+        }
+
+        .btn-dark:hover {
+            background-color: #2c3e50;
+            color: #fff;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 3.25rem;
+            /* Increased section title size */
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 2.75rem;
+            /* Increased margin below title */
+            position: relative;
+            padding-bottom: 0.85rem;
+            /* Increased padding below title */
+            letter-spacing: -0.05em;
+            /* Tighten letter spacing */
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 6px;
+            /* Increased highlight thickness */
+            width: 80px;
+            /* Increased highlight width */
+            background-color: #3498db;
+            /* Brand color highlight */
+        }
+
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 0.85rem;
+            overflow: hidden;
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+            /* Slightly stronger shadow */
+            transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+            background-color: #fff;
+            /* White card background */
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            /* Subtle border */
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            /* Increased hover lift */
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 270px;
+            /* Increased card image height */
+            object-fit: cover;
+            transition: transform 0.35s ease-in-out;
+        }
+
+        .card img:hover {
+            transform: scale(1.07);
+            /* Slightly stronger zoom */
+        }
+
+        .card-body {
+            text-align: center;
+            padding: 1.75rem;
+            /* Increased card body padding */
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            /* Increased card title size */
+            font-weight: 600;
+            margin-bottom: 0.85rem;
+            color: #34495e;
+            /* Darker title color */
+        }
+
+        .card-text {
+            font-size: 1.15rem;
+            color: #777;
+            /* Slightly darker text color */
+            line-height: 1.5;
+            /* Improved line height */
+        }
+
+        /* Custom Sections (About Us, Contact, Cart) */
+        .custom-section,
+        .contact-section,
+        .cart-section {
+            background: #fff;
+            padding: 4.5rem;
+            /* Increased section padding */
+            border-radius: 0.85rem;
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+            /* Slightly stronger shadow */
+            margin: 4rem 0;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            /* Subtle border */
+        }
+
+        /* Slightly different background for the about section */
+        #about {
+            background: #fcfcfc;
+        }
+
+        /* Form Styling */
+        form input,
+        form textarea {
+            width: 100%;
+            border-radius: 0.4rem;
+            border: 1px solid #bdc3c7;
+            padding: 0.95rem;
+            /* Increased form padding */
+            margin-bottom: 1.35rem;
+            /* Increased form margin */
+            font-size: 1.2rem;
+            /* Increased form font size */
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        form input:focus,
+        form textarea:focus {
+            border-color: #3498db;
+            /* Brand color on focus */
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            /* Brand color shadow */
+        }
+
+        /* Cart Styling */
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            background: #f0f3f4;
+            /* Light background */
+            margin: 0.65rem 0;
+            padding: 0.85rem;
+            border-radius: 0.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            /* Increased cart item size */
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            /* Subtle border */
+        }
+
+        /* Footer */
+        .footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 1.75rem 0;
+            /* Increased footer padding */
+            font-size: 1.1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+
+            .hero {
+                height: 600px;
+                padding: 50px 20px;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            .card img {
+                height: 220px;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 550px;
+                padding: 40px 15px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.15rem;
+            }
+
+            .card img {
+                height: 200px;
+            }
+
+            .custom-section,
+            .contact-section,
+            .cart-section {
+                padding: 3rem;
+                margin: 3rem 0;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+                /* Smaller title on mobile */
+            }
+
+            .navbar-brand {
+                font-size: 1.75rem;
+                /* Smaller brand on mobile */
+            }
+
+            .navbar-nav .nav-link {
+                padding: 0.6rem 1.1rem;
+            }
+
+            .btn {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Smaller screens */
+        @media (max-width: 576px) {
+            .hero {
+                height: 450px;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .card img {
+                height: 170px;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .card-text {
+                font-size: 1.05rem;
+            }
+
+            .custom-section,
+            .contact-section,
+            .cart-section {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+
+            .card-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">VARKA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#shop">Collections</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#custom">Customizations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cart">Cart (<span id="cart-count">0</span>)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Image Slides -->
+    <header class="hero" id="home">
+        <div class="hero-slides">
+            <div class="hero-slide"
+                style="background-image: url('https://i.pinimg.com/originals/e4/d9/f6/e4d9f6731a3185b39dc834b0f2baacb9.jpg');">
+                <!-- First Image -->
+                <div class="hero-content">
+                    <h1>VARKA</h1>
+                    <p>Wear Bold. Wear VARKA.</p>
+                    <a href="#shop" class="btn btn-light rounded-pill">Shop Now</a>
+                </div>
+            </div>
+            <div class="hero-slide"
+                style="background-image: url('https://www.instaloverz.com/wp-content/uploads/2017/03/7.-Men-Summer-Fashion-Style.jpg');">
+                <!-- Second Image -->
+                <div class="hero-content">
+                    <h1>VARKA</h1>
+                    <p>Express Yourself Through Fashion.</p>
+                    <a href="#shop" class="btn btn-light rounded-pill">Shop Now</a>
+                </div>
+            </div>
+            <div class="hero-slide"
+                style="background-image: url('https://www.thefashionisto.com/wp-content/uploads/2019/03/Todd-Snyder-Spring-2019-Mens-Shirts-003-450x675.jpg">
+                <!-- Third Image -->
+                <div class="hero-content">
+                    <h1>VARKA</h1>
+                    <p>Elevate Your Style.</p>
+                    <a href="#shop" class="btn btn-light rounded-pill">Shop Now</a>
+                </div>
+            </div>
+            <div class="hero-slide" style="background-image: url('https://instaloverz.com/wp-content/uploads/2017/03/28.-Men-Summer-Fashion-Style.jpg');">
+                <!-- Fourth Image -->
+                <div class="hero-content">
+                    <h1>VARKA</h1>
+                    <p>Dress to Impress.</p>
+                    <a href="#shop" class="btn btn-light rounded-pill">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Us Section -->
+    <section id="about" class="custom-section">
+        <div class="container">
+            <h2 class="section-title text-center">About Us</h2>
+            <p>Welcome to Varka – where style meets individuality!</p>
+            <p>At Varka, we understand that fashion is personal, and so is the need for the perfect shirt. That's why we
+                specialize in offering high-quality, customizable shirts tailored to meet your unique style and
+                requirements. Whether you're looking for a single shirt or a bulk order, we’ve got you covered. Our
+                mission is to satisfy your demands with precision, creativity, and attention to detail.</p>
+            <p>Join us in exploring endless possibilities for creating your ideal shirt, and let us bring your vision to
+                life with unmatched quality and service.</p>
+            <p><strong>Varka – Your style, your shirt, your way.</strong></p>
+        </div>
+    </section>
+
+    <!-- Shop Section -->
+    <section id="shop" class="container">
+        <h2 class="section-title text-center">Shop Our Collection</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://th.bing.com/th/id/OIP.KfOQ9ooJoE9o3ix6EZKtCwHaJW?pid=ImgDet&w=474&h=598&rs=1"
+                        class="card-img-top" alt="Dark blue shirt" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">Dark blue shirt</h5>
+                        <p class="card-text">₹999</p>
+                        <p class="card-text"><strong>No Return</strong></p>
+                        <button class="btn btn-dark rounded-pill" onclick="addToCart('Dark blue shirt', 999)">Add to
+                            Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://th.bing.com/th/id/OIP.tmFhHqQTmMK3nl-AwFgM5gHaJQ?rs=1&pid=ImgDetMain"
+                        class="card-img-top" alt="Coloured texture shirt" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">Coloured texture shirt</h5>
+                        <p class="card-text">₹1999</p>
+                        <p class="card-text"><strong>No Return</strong></p>
+                        <button class="btn btn-dark rounded-pill" onclick="addToCart('Coloured texture shirt', 1999)">Add to
+                            Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://www.ethicalsuperstore.com/images/category/e-subcat-fashion-men-s21.jpg"
+                        class="card-img-top" alt="Light blue shirt" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">Light blue shirt</h5>
+                        <p class="card-text">₹999</p>
+                        <p class="card-text"><strong>No Return</strong></p>
+                        <button class="btn btn-dark rounded-pill" onclick="addToCart('Light blue shirt', 999)">Add to
+                            Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="payment-info text-center">For purchasing any products, please contact us using the contact
+            information provided below. We'd be happy to assist you with payment options and complete your order!</p>
+    </section>
+
+    <!-- Customization Section -->
+    <section id="custom" class="custom-section">
+        <div class="container">
+            <h2 class="section-title text-center">Customizations</h2>
+            <form action="https://docs.google.com/forms/d/e/1FAIpQLScfjLQWotgWBqFQdIR9OJrTSRqGjRmCiP6NGmE3azAismwJ4A/formResponse"
+                method="POST">
+                <input type="text" name="entry.123456789" placeholder="Your Name" required>
+                <input type="email" name="entry.987654321" placeholder="Your Email" required>
+                <textarea name="entry.112233445" placeholder="Describe your customization request"
+                    required></textarea>
+                <button type="submit" class="btn btn-dark rounded-pill">Submit Customization</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="cart-section">
+        <div class="container">
+            <h2 class="section-title text-center">Your Cart</h2>
+            <ul id="cart-items"></ul>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title text-center">Contact Us</h2>
+            <p class="text-center">Email: <a href="mailto:varka.clothing@gmail.com">varka.clothing@gmail.com</a></p>
+            <p class="text-center">Phone: <a href="tel:+919945268777">+91 9945268777</a></p>
+            <p class="text-center">Address: 123 Fashion Street, Bangalore, India</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 VARKA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cart = [];
+
+        function addToCart(productName, price) {
+            cart.push({
+                name: productName,
+                price: price
+            });
+            document.getElementById("cart-count").textContent = cart.length;
+            updateCart();
+        }
+
+        function updateCart() {
+            let cartList = document.getElementById("cart-items");
+            cartList.innerHTML = "";
+            cart.forEach((item) => {
+                let listItem = document.createElement("li");
+                listItem.textContent = `${item.name} - ₹${item.price}`;
+                cartList.appendChild(listItem);
+            });
+        }
+
+        // Hero Slider Script
+        const heroSlides = document.querySelector('.hero-slides');
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            heroSlides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+        // Navbar Active State Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Remove active class from all links
+                    navLinks.forEach(link => link.classList.remove('active'));
+
+                    // Add active class to the clicked link
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
